@@ -2,17 +2,33 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class ConfigLoader {
+abstract class ConfigLoader {
 
-    public static Properties ConfigProperties = new Properties();
-    public static String filename;
+    ConfigLoader(String filename) {
+        this.filename = filename;
+    }
+    public Properties ConfigProperties = new Properties();
 
-    private ConfigLoader() {
+    public String filename;
 
+    public abstract void loadfile() throws CustomIOException;
+
+    public abstract String getfilename();
+
+    public abstract Properties getProperties();
+
+    public abstract String getProperty(String key);
+}
+
+class Property extends ConfigLoader {
+
+    Property(String filename) throws CustomIOException {
+        super(filename);
+        loadfile();
     }
 
-    public static void LoadFile(String filename) throws CustomIOException {
-        ConfigLoader.filename = filename;
+    @Override
+    public void loadfile() throws CustomIOException {
         try (InputStream inputStream = ConfigLoader.class.getClassLoader().getResourceAsStream(filename)) {
             if (inputStream == null) {
                 throw new CustomIOException("File not Found: " + filename);
@@ -24,11 +40,18 @@ public class ConfigLoader {
         }
     }
 
-    public static String GetFilename(){
-        return filename;
+    @Override
+    public String getfilename() {
+        return super.filename;
     }
 
-    public static Properties GetProperties(){
+    @Override
+    public Properties getProperties() {
         return ConfigProperties;
+    }
+
+    @Override
+    public String getProperty(String key) {
+        return ConfigProperties.getProperty(key);
     }
 }

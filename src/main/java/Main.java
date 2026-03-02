@@ -1,9 +1,10 @@
 public class Main {
-    public static void main() throws CustomIOException {
+    public static void main(String[] args) throws CustomIOException {
 
-        ConfigLoader.LoadFile("config.properties");
+        Property newfile = new Property("config.properties");
+        Property textfile = new Property("text.txt");
 
-        System.out.println(ConfigLoader.GetProperties());
+        System.out.println(textfile.getProperty("youtube"));
 
     }
 }
