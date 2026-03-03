@@ -27,11 +27,12 @@ class testConnection implements ConnectionStatus {
            connection.setConnectTimeout(TIMEOUT);
            connection.setReadTimeout(TIMEOUT);
 
-           System.out.println(connection.getResponseCode());
+           int response = connection.getResponseCode();
+           return response == HttpURLConnection.HTTP_OK;
+
         } catch (Exception e) {
             throw new CustomRuntimeExpection("error " + e);
         }
-        return false;
     }
 
     @Override
