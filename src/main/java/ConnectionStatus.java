@@ -1,6 +1,9 @@
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 interface ConnectionStatus {
 
@@ -10,10 +13,9 @@ interface ConnectionStatus {
 
     public boolean isReachable(String url);
 
-    public void saveContent();
 }
 
-class testConnection implements ConnectionStatus {
+class TestConnection implements ConnectionStatus {
 
     @Override
     public boolean isReachable(Property property) {
@@ -31,13 +33,22 @@ class testConnection implements ConnectionStatus {
            response = connection.getResponseCode();
 
         } catch (Exception e) {
-            throw new CustomRuntimeExpection("error " + e);
+            throw new CustomRuntimeExpection("error " + e.getMessage());
         }
         return response >= 200 && response <= 399;
     }
+}
 
-    @Override
-    public void saveContent() {
-
+class ConnectionInfo extends TestConnection {
+    Path logPath = Paths.get("src/main/resources/log");
+    public void getconnectionlogfile(Property property) throws IOException {
+        try {
+            if (!Files.exists(logPath)) {
+                Files.createDirectories(logPath);
+                System.out.println("Log folder created at: " + logPath.toAbsolutePath());
+            }
+        } catch (Exception e) {
+            throw new CustomIOException("Could not create log directory: " + e.getMessage());
+        }
     }
 }

@@ -53,7 +53,9 @@ class Property extends ConfigLoader {
     public String getkeys() {
         StringBuilder keys = new StringBuilder();
         for (String key : ConfigProperties.stringPropertyNames()){
-            keys.append("Key = ").append(key).append("\n");
+            keys.append("Key = ")
+                    .append(key)
+                    .append("\n");
         }
         return keys.toString();
     }
@@ -72,9 +74,9 @@ class Property extends ConfigLoader {
     @Override
     public String getProperty(String key) throws CustomIOException {
         if(ConfigProperties.getProperty(key) == null) {
-            throw  new CustomIOException("\nProperty: " + key  + "\n of file: " + getfilename() + " not found");
+            throw new CustomIOException("\nProperty: " + key  + "\n of file: " + getfilename() + " not found");
         } else {
-            return  ConfigProperties.getProperty(key);
+            return ConfigProperties.getProperty(key);
         }
     }
 }
