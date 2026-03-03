@@ -4,10 +4,13 @@ public class Main {
         ConnectionStatus testConnection = new testConnection();
         Property newfile = new Property("config.properties");
         Property textfile = new Property("text.txt");
+        Property htmlfile = new Property("index.html");
 
-        boolean result = testConnection.isReachable(textfile.getProperty("pinterest"));
+        String format = textfile.getkeys();
+     //   boolean result = testConnection.isReachable(htmlfile.getProperty("youtube"));
 
-        System.out.println(result);
+      //  System.out.println(result);
+        System.out.println(format);
 
     }
 }

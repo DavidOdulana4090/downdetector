@@ -33,7 +33,7 @@ class testConnection implements ConnectionStatus {
         } catch (Exception e) {
             throw new CustomRuntimeExpection("error " + e);
         }
-        return response >= 200 && response <= 300;
+        return response >= 200 && response <= 399;
     }
 
     @Override
