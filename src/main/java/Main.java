@@ -5,7 +5,9 @@ public class Main {
         Property newfile = new Property("config.properties");
         Property textfile = new Property("text.txt");
 
-        testConnection.isReachable(newfile.getProperty("youtube"));
+        boolean result = testConnection.isReachable(textfile.getProperty("pinterest"));
+
+        System.out.println(result);
 
     }
 }

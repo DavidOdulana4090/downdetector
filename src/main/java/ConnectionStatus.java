@@ -1,9 +1,10 @@
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 
 interface ConnectionStatus {
 
-    public int TIMEOUT = 36000;
+    public int TIMEOUT = 3000;
 
     public boolean isReachable(Property property);
 
@@ -21,18 +22,18 @@ class testConnection implements ConnectionStatus {
 
     @Override
     public boolean isReachable(String url) {
+        int response;
         try {
-           HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+           HttpURLConnection connection = (HttpURLConnection) URI.create(url).toURL().openConnection();
            connection.setRequestMethod("HEAD");
            connection.setConnectTimeout(TIMEOUT);
            connection.setReadTimeout(TIMEOUT);
-
-           int response = connection.getResponseCode();
-           return response == HttpURLConnection.HTTP_OK;
+           response = connection.getResponseCode();
 
         } catch (Exception e) {
             throw new CustomRuntimeExpection("error " + e);
         }
+        return response >= 200 && response <= 300;
     }
 
     @Override
