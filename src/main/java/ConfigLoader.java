@@ -7,6 +7,7 @@ abstract class ConfigLoader {
     ConfigLoader(String filename) {
         this.filename = filename;
     }
+
     public Properties ConfigProperties = new Properties();
 
     public String filename;
@@ -34,6 +35,7 @@ class Property extends ConfigLoader {
                 throw new CustomIOException("File not Found: " + filename);
             } else {
                 ConfigProperties.load(inputStream);
+                System.out.println(filename + " loaded");
             }
         } catch (IOException error) {
             throw new CustomIOException("Something went wrong " + error);
