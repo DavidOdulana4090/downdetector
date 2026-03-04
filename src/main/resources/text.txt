@@ -1,4 +1,4 @@
-youtube=https://www.youtube.com/
+youtube=https://www.youtube.com
 pinterest=https://ca.pinterest.com/
 amazon=https://www.amazon.com/
 notasite=notasite
