@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.file.Files;
@@ -9,46 +8,54 @@ interface ConnectionStatus {
 
     public int TIMEOUT = 3000;
 
-    public boolean isReachable(Property property);
+    public String isReachable(Fileobj file) throws CustomIOException;
 
     public boolean isReachable(String url);
-
 }
 
 class TestConnection implements ConnectionStatus {
 
-    @Override
-    public boolean isReachable(Property property) {
-        return false;
-    }
+    StringBuilder stringBuilder = new StringBuilder();
+    int index;
 
+    @Override
+    public String isReachable(Fileobj property) throws CustomIOException {
+        for (String key : property.ConfigProperties.stringPropertyNames()) {
+            index++;
+            stringBuilder.append(index)
+                    .append(". ")
+                    .append(key)
+                    .append(" = ")
+                    .append(isReachable(property.getProperty(key)))
+                    .append("\n");
+        }
+        return stringBuilder.toString();
+    }
     @Override
     public boolean isReachable(String url) {
         int response;
         try {
-           HttpURLConnection connection = (HttpURLConnection) URI.create(url).toURL().openConnection();
+           HttpURLConnection connection = (HttpURLConnection) URI.create(url.toLowerCase()).toURL().openConnection();
            connection.setRequestMethod("HEAD");
            connection.setConnectTimeout(TIMEOUT);
            connection.setReadTimeout(TIMEOUT);
            response = connection.getResponseCode();
 
         } catch (Exception e) {
-            throw new CustomRuntimeExpection("error " + e.getMessage());
+            response = -1;
         }
         return response >= 200 && response <= 399;
     }
 }
 
-class ConnectionInfo extends TestConnection {
-    Path logPath = Paths.get("src/main/resources/log");
-    public void getconnectionlogfile(Property property) throws IOException {
-        try {
-            if (!Files.exists(logPath)) {
-                Files.createDirectories(logPath);
-                System.out.println("Log folder created at: " + logPath.toAbsolutePath());
-            }
-        } catch (Exception e) {
-            throw new CustomIOException("Could not create log directory: " + e.getMessage());
-        }
-    }
-}
+
+//    public static Path logPath = Paths.get("src/main/resources/dir");
+//
+//    public void GetConnectionLogfile(Fileobj file) throws CustomIOException {
+//        try {
+//            if (!Files.exists(logPath)) {
+//                Files.createDirectories(logPath);
+//                System.out.println("Log folder created at: " + logPath.toAbsolutePath());
+//            }
+//        } catch (Exception e) {
+//            throw new CustomIOException("Could not create log directory: " + e.getMessage());

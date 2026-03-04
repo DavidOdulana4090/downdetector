@@ -23,9 +23,9 @@ abstract class ConfigLoader {
     public abstract String getProperty(String key) throws CustomIOException;
 }
 
-class Property extends ConfigLoader {
+class Fileobj extends ConfigLoader {
 
-    Property(String filename) throws CustomIOException {
+    Fileobj(String filename) throws CustomIOException {
         super(filename);
         loadfile();
     }
@@ -73,7 +73,7 @@ class Property extends ConfigLoader {
 
     @Override
     public String getProperty(String key) throws CustomIOException {
-        if(ConfigProperties.getProperty(key) == null) {
+        if(ConfigProperties.getProperty(key.toLowerCase()) == null) {
             throw new CustomIOException("\nProperty: " + key  + "\n of file: " + getfilename() + " not found");
         } else {
             return ConfigProperties.getProperty(key);

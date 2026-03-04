@@ -1,14 +1,10 @@
-import java.io.IOException;
-
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws CustomIOException {
 
-        ConnectionInfo connectionInfo = new ConnectionInfo();
+        TestConnection connection = new TestConnection();
+        Fileobj config = new Fileobj("TEXT.TXT");
 
-        Property newfile = new Property("config.properties");
-        Property textfile = new Property("text.txt");
-
-        connectionInfo.getconnectionlogfile(textfile);
+        System.out.println(connection.isReachable(config));
 
     }
 }
