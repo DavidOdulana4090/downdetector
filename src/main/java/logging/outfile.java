@@ -29,14 +29,13 @@ public class outfile {
         try {
             outfile.mkfile();
             txt = new FileWriter(directory + "/" + filename);
-            txt.write("test");
+            txt.write("");
         } catch (Exception e) {
             System.out.println("error " + e);
         } finally {
             txt.close();
         }
     }
-
     public static void logfailedResult(HttpURLConnection connection) throws CustomIOException {
 
     }
