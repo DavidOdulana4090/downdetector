@@ -4,7 +4,8 @@ public class Main {
         TestConnection connection = new TestConnection();
         Fileobj config = new Fileobj("TEXT.TXT");
 
-        System.out.println(connection.isReachable(config));
+
+        System.out.println(config.GetKeySet());
 
     }
 }

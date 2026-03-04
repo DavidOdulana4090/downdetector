@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Properties;
 
 abstract class ConfigLoader {
@@ -16,9 +17,7 @@ abstract class ConfigLoader {
 
     public abstract String getfilename();
 
-    public abstract String getkeys();
-
-    public abstract String getvalues();
+    public abstract Collection<Object> GetKeySet();
 
     public abstract String getProperty(String key) throws CustomIOException;
 }
@@ -49,26 +48,8 @@ class Fileobj extends ConfigLoader {
         return super.filename;
     }
 
-    @Override
-    public String getkeys() {
-        StringBuilder keys = new StringBuilder();
-        for (String key : ConfigProperties.stringPropertyNames()){
-            keys.append("Key = ")
-                    .append(key)
-                    .append("\n");
-        }
-        return keys.toString();
-    }
-
-    @Override
-    public String getvalues() {
-        StringBuilder values = new StringBuilder();
-        for (String key : ConfigProperties.stringPropertyNames()){
-            values.append("Value = ")
-                    .append(ConfigProperties.getProperty(key)).
-                    append("\n");
-        }
-        return values.toString();
+    public Collection<Object> GetKeySet() {
+        return ConfigProperties.keySet();
     }
 
     @Override
