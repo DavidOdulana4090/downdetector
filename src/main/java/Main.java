@@ -1,11 +1,19 @@
+import connection.TestConnection;
+import logging.Fileobj;
+import Exception.CustomIOException;
+import logging.outfile;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+
 public class Main {
-    public static void main(String[] args) throws CustomIOException {
+    public static void main(String[] args) throws IOException {
 
+        HttpURLConnection connection1 = null;
         TestConnection connection = new TestConnection();
-        Fileobj config = new Fileobj("TEXT.TXT");
+        Fileobj config = new Fileobj("text.txt");
 
-
-        System.out.println(config.GetKeySet());
+        outfile.logsuccessfulResult(connection1);
 
     }
 }

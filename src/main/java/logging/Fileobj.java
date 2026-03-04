@@ -1,30 +1,16 @@
+package logging;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Properties;
+import  java.util.logging.Level;
+import java.util.logging.Logger;
+import Exception.CustomIOException;
 
-abstract class ConfigLoader {
 
-    ConfigLoader(String filename) {
-        this.filename = filename;
-    }
+public class Fileobj extends ConfigLoader {
 
-    public Properties ConfigProperties = new Properties();
-
-    public String filename;
-
-    public abstract void loadfile() throws CustomIOException;
-
-    public abstract String getfilename();
-
-    public abstract Collection<Object> GetKeySet();
-
-    public abstract String getProperty(String key) throws CustomIOException;
-}
-
-class Fileobj extends ConfigLoader {
-
-    Fileobj(String filename) throws CustomIOException {
+    public Fileobj(String filename) throws CustomIOException {
         super(filename);
         loadfile();
     }
@@ -48,14 +34,14 @@ class Fileobj extends ConfigLoader {
         return super.filename;
     }
 
-    public Collection<Object> GetKeySet() {
+    public Collection<Object> getKeySet() {
         return ConfigProperties.keySet();
     }
 
     @Override
     public String getProperty(String key) throws CustomIOException {
         if(ConfigProperties.getProperty(key.toLowerCase()) == null) {
-            throw new CustomIOException("\nProperty: " + key  + "\n of file: " + getfilename() + " not found");
+            throw new CustomIOException("\nProperty: " + key  + " of file: " + getfilename() + " not found");
         } else {
             return ConfigProperties.getProperty(key);
         }
