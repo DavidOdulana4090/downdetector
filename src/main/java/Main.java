@@ -9,11 +9,9 @@ import java.net.HttpURLConnection;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        HttpURLConnection connection1 = null;
         TestConnection connection = new TestConnection();
         Fileobj config = new Fileobj("text.txt");
 
-        outfile.logsuccessfulResult(connection1);
 
     }
 }
