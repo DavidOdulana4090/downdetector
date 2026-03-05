@@ -2,8 +2,12 @@ package datafilehandling;
 import Exception. *;
 
 public class Readdatabase extends datasource{
+
+    public Readdatabase(){
+
+    }
     @Override
-    public void loadFile() throws CustomIOException {
+    public void loadsource(String dburl) throws CustomIOException {
 
     }
 

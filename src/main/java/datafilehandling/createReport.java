@@ -8,11 +8,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import Exception.CustomIOException;
 
-public class outfile {
+public class createReport {
     static String directory = "src/main/logs";
     static Path dirPath = Paths.get(directory);
     static String filename = "log.txt";
     static FileWriter txt;
+
+    public enum outputType{
+        LOGFILE,
+        CONSOLE
+    }
 
     public static void mkfile() {
         try {
@@ -26,7 +31,7 @@ public class outfile {
 
     public static void logsuccessfulResult(HttpURLConnection connection) throws IOException {
         try {
-            outfile.mkfile();
+            createReport.mkfile();
             txt = new FileWriter(directory + "/" + filename);
             txt.write("");
         } catch (Exception e) {
