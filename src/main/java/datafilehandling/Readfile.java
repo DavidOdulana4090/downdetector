@@ -17,18 +17,21 @@ public class Readfile extends datasource {
 
 
     public Readfile() throws CustomIOException, CustomFileNotFoundException {
-        try (Scanner scanner = new Scanner(System.in)){
+        try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Enter filename : ");
             filename = scanner.nextLine();
 
+            System.out.println("Do you wish to make a report of this file (Y/N) : ");
+            String input = scanner.nextLine();
+
+            System.out.println("");
             loadsource(filename);
             httpconnection.checkAllServices(file);
 
 
-//            System.out.println("Do you wish to make a report of this file (Y/N) : ");
-//            String input = scanner.nextLine();
-//
 //            if(input.equals("Y") || input.equals("y")){
+//
+//            } else {
 //
 //            }
         }
