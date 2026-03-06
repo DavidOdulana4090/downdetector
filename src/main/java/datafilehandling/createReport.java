@@ -1,14 +1,15 @@
 package datafilehandling;
 
+import connection.httpconnection;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import Exception.CustomIOException;
 
-public class createReport {
+public class createReport extends httpconnection {
     static String directory = "src/main/logs";
     static Path dirPath = Paths.get(directory);
     static String filename = "log.txt";
@@ -29,7 +30,7 @@ public class createReport {
         }
     }
 
-    public static void logsuccessfulResult(HttpURLConnection connection) throws IOException {
+    public static void createFile(HttpURLConnection connection) throws IOException {
         try {
             createReport.mkfile();
             txt = new FileWriter(directory + "/" + filename);
@@ -39,8 +40,5 @@ public class createReport {
         } finally {
             txt.close();
         }
-    }
-    public static void logfailedResult(HttpURLConnection connection) throws CustomIOException {
-
     }
 }

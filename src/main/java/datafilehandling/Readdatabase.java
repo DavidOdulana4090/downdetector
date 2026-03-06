@@ -15,11 +15,11 @@ public class Readdatabase extends datasource{
 
     public Readdatabase(){
         try(Scanner scanner = new Scanner(System.in)){
-            System.out.println("Enter your full data base url : ");
+            System.out.print("Enter your full data base url : ");
             url = scanner.nextLine();
-            System.out.println("SELECT : ");
+            System.out.print("SELECT ");
             columnname = scanner.nextLine();
-            System.out.println("FROM : ");
+            System.out.print("FROM ");
             tablename = scanner.nextLine();
             System.out.println("Create a report? (Y/N) : ");
             input = scanner.nextLine();
@@ -48,14 +48,14 @@ public class Readdatabase extends datasource{
                     String foundurl = resultSet.getString("url");
                     boolean result = httpconnection.isReachable(foundurl);
 
-                    if (input.equalsIgnoreCase("y")){
-
-                    } else {
+                    if (!input.equalsIgnoreCase("y")){
                         System.out.println(foundurl + " " + (result ? "is reachable" : "is not reachable"));
+                    } else {
+
                     }
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new CustomRuntimeException("runtime error " + e.getMessage());
             }
     }
 

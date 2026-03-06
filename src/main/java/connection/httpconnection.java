@@ -50,8 +50,3 @@ public class httpconnection implements Checkconnections {
     }
 }
 
-class httpreport extends httpconnection {
-    public HttpRequest report(){
-        return null;
-    }
-}
