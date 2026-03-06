@@ -14,6 +14,7 @@ public class Readfile extends datasource {
     private Scanner scanner;
     protected String filename;
     protected httpconnection httpconnection = new httpconnection();
+    String input;
 
 
     public Readfile() throws CustomIOException, CustomFileNotFoundException {
@@ -24,34 +25,32 @@ public class Readfile extends datasource {
             System.out.println("Do you wish to make a report of this file (Y/N) : ");
             String input = scanner.nextLine();
 
-            System.out.println("");
+            System.out.println();
             loadsource(filename);
             httpconnection.checkAllServices(file);
-
-
-//            if(input.equals("Y") || input.equals("y")){
-//
-//            } else {
-//
-//            }
         }
     }
 
     @Override
-    public void loadsource(String filename) throws CustomIOException {
+    public void loadsource(String filename) {
         try {
             var resource = getClass().getClassLoader().getResource(filename);
             assert resource != null;
 
             file = new File(resource.toURI());
 
-            try (Scanner scanner = new Scanner(file)) {
-                while (scanner.hasNextLine()) {
-                    String txtline = scanner.nextLine();
+            if (!input.equalsIgnoreCase("y")){
+                try (Scanner scanner = new Scanner(file)) {
+                    while (scanner.hasNextLine()) {
+                        String txtline = scanner.nextLine();
+                    }
                 }
-            }
-            catch (Exception e) {
-                System.err.println("cant read file" + e);
+                catch (Exception e) {
+                    System.err.println("cant read file" + e);
+                }
+            } else {
+
+                // Makereport
             }
         } catch (Exception e) {
             System.err.println("file not found: " + filename +  " " + e.getMessage());

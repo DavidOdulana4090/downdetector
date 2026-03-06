@@ -1,7 +1,5 @@
 package connection;
 
-import datafilehandling.Readfile;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URI;
@@ -14,7 +12,7 @@ import Exception. *;
 
 public class httpconnection implements Checkconnections {
 
-    HttpClient client = HttpClient.newHttpClient();
+    HttpClient httpClient = HttpClient.newHttpClient();
     HttpRequest request;
     HttpResponse<String> response;
     boolean reachable;
@@ -40,7 +38,7 @@ public class httpconnection implements Checkconnections {
                     .uri(URI.create(url))
                     .GET()
                     .build();
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 reachable = true;
             }
@@ -49,5 +47,11 @@ public class httpconnection implements Checkconnections {
             System.err.println("not a url " + e.getMessage());
             return false ;
         }
+    }
+}
+
+class httpreport extends httpconnection {
+    public HttpRequest report(){
+        return null;
     }
 }
