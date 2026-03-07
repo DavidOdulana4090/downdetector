@@ -11,6 +11,8 @@ public class Readdatabase extends datasource{
     String tablename;
     String columnname;
     String input;
+    boolean result;
+
     httpconnection httpconnection = new httpconnection();
 
     public Readdatabase(){
@@ -46,12 +48,12 @@ public class Readdatabase extends datasource{
 
                 while (resultSet.next()) {
                     String foundurl = resultSet.getString("url");
-                    boolean result = httpconnection.isReachable(foundurl);
+                    result = httpconnection.isReachable(foundurl);
 
                     if (!input.equalsIgnoreCase("y")){
                         System.out.println(foundurl + " " + (result ? "is reachable" : "is not reachable"));
                     } else {
-
+                        createReport.log(foundurl, httpconnection.isReachable(foundurl), httpconnection.getStatusCode(), httpconnection.getResponse());
                     }
                 }
             } catch (SQLException e) {
@@ -61,6 +63,6 @@ public class Readdatabase extends datasource{
 
     @Override
     public String getfileSource() {
-        return "";
+        return columnname;
     }
 }

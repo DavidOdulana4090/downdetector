@@ -6,9 +6,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Scanner;
 
 import Exception. *;
+import datafilehandling.createReport;
 
 public class httpconnection implements Checkconnections {
 
@@ -18,18 +18,7 @@ public class httpconnection implements Checkconnections {
     boolean reachable;
     int timeout;
     StringBuilder sb;
-
-    @Override
-    public void checkAllServices(File file) throws CustomIOException, CustomFileNotFoundException {
-        try (Scanner scanner = new Scanner(file)){
-            while (scanner.hasNextLine()) {
-                String txtline = scanner.nextLine();
-                System.out.println(txtline + " " + (isReachable(txtline) ? "is reachable" : "is not reachable"));
-            }
-        } catch (FileNotFoundException e){
-            System.err.println("file not found: " + e.getMessage());
-        }
-    }
+    int statusCode;
 
     @Override
     public boolean isReachable(String url) throws CustomInterruptedException, CustomIOException, CustomRuntimeException {
@@ -39,14 +28,39 @@ public class httpconnection implements Checkconnections {
                     .GET()
                     .build();
             response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() >= 200 && response.statusCode() < 300) {
+
+            setResponse(response);
+            setStatusCode(response.statusCode());
+
+            if (statusCode >= 200 && statusCode < 300) {
                 reachable = true;
             }
             return reachable;
         } catch (Exception e){
             System.err.println("not a url " + e.getMessage());
+            setResponse(null);
+            setStatusCode(0);
             return false ;
         }
     }
-}
 
+    @Override
+    public HttpResponse<String> getResponse() {
+        return response;
+    }
+
+    @Override
+    public void setResponse(HttpResponse<String> response) {
+        this.response = response;
+    }
+
+    @Override
+    public void setStatusCode(int status){
+        this.statusCode = status;
+    }
+
+    @Override
+    public int getStatusCode(){
+        return statusCode;
+    }
+}
