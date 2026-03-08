@@ -38,14 +38,14 @@ public class Readfile extends datasource {
             assert resource != null;
 
             file = new File(resource.toURI());
-
+            exist();
                 try (Scanner scanner = new Scanner(file)) {
                     while (scanner.hasNextLine()) {
                         txtline = scanner.nextLine();
                         if (!input.equalsIgnoreCase("y")){
                             System.out.println(txtline + " " + (httpconnection.isReachable(txtline) ? "is reachable" : "is not reachable"));
                         } else {
-                            createReport.log(txtline, (httpconnection.isReachable(txtline)), httpconnection.getStatusCode(), httpconnection.getResponse());
+                            createReport.log(txtline, (httpconnection.isReachable(txtline)), httpconnection.getStatusCode());
                         }
                     }
                     System.out.println("Finished ");
@@ -61,7 +61,12 @@ public class Readfile extends datasource {
 
 
     @Override
-    public String getfileSource() {
-        return filepath;
+    public boolean exist() {
+        if (file.exists()) {
+            return true;
+        } else {
+            System.out.println("file not found");
+            return false;
+        }
     }
 }

@@ -13,10 +13,6 @@ public interface Checkconnections {
 
      boolean isReachable(String url) throws CustomIOException, CustomInterruptedException, CustomRuntimeException;
 
-     HttpResponse<String> getResponse();
-
-     void setResponse(HttpResponse<String> response);
-
      void setStatusCode(int status);
 
      int getStatusCode();

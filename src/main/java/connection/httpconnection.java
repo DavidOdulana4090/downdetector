@@ -29,7 +29,6 @@ public class httpconnection implements Checkconnections {
                     .build();
             response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-            setResponse(response);
             setStatusCode(response.statusCode());
 
             if (statusCode >= 200 && statusCode < 300) {
@@ -37,21 +36,10 @@ public class httpconnection implements Checkconnections {
             }
             return reachable;
         } catch (Exception e){
-            System.err.println("not a url " + e.getMessage());
-            setResponse(null);
+            System.err.println("cant process this request: " + url + " " + e.getMessage());
             setStatusCode(0);
             return false ;
         }
-    }
-
-    @Override
-    public HttpResponse<String> getResponse() {
-        return response;
-    }
-
-    @Override
-    public void setResponse(HttpResponse<String> response) {
-        this.response = response;
     }
 
     @Override

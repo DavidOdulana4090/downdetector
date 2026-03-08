@@ -12,6 +12,7 @@ public class Readdatabase extends datasource{
     String columnname;
     String input;
     boolean result;
+    ResultSet resultSet;
 
     httpconnection httpconnection = new httpconnection();
 
@@ -19,9 +20,9 @@ public class Readdatabase extends datasource{
         try(Scanner scanner = new Scanner(System.in)){
             System.out.print("Enter your full data base url : ");
             url = scanner.nextLine();
-            System.out.print("SELECT ");
+            System.out.print("SELECT [column] ");
             columnname = scanner.nextLine();
-            System.out.print("FROM ");
+            System.out.print("FROM [table] ");
             tablename = scanner.nextLine();
             System.out.println("Create a report? (Y/N) : ");
             input = scanner.nextLine();
@@ -32,7 +33,7 @@ public class Readdatabase extends datasource{
         }
     }
     @Override
-    public void loadsource(String dburl) throws CustomIOException {
+    public void loadsource(String jdbc) throws CustomIOException {
             try(Connection dbconnection = DriverManager.getConnection(url)){
 
                 Statement statement = dbconnection.createStatement();
@@ -44,25 +45,28 @@ public class Readdatabase extends datasource{
 
                 System.out.println( sqlcommand.toString() + "\n");
 
-                ResultSet resultSet = statement.executeQuery(sqlcommand.toString());
+                resultSet = statement.executeQuery(sqlcommand.toString());
 
                 while (resultSet.next()) {
-                    String foundurl = resultSet.getString("url");
-                    result = httpconnection.isReachable(foundurl);
-
+                    String foundurl = resultSet.getString(columnname);
                     if (!input.equalsIgnoreCase("y")){
-                        System.out.println(foundurl + " " + (result ? "is reachable" : "is not reachable"));
+                        System.out.println(foundurl + " " + (httpconnection.isReachable(foundurl) ? "is reachable" : "is not reachable"));
                     } else {
-                        createReport.log(foundurl, httpconnection.isReachable(foundurl), httpconnection.getStatusCode(), httpconnection.getResponse());
+                        createReport.log(foundurl, httpconnection.isReachable(foundurl), httpconnection.getStatusCode());
                     }
                 }
             } catch (SQLException e) {
-                throw new CustomRuntimeException("runtime error " + e.getMessage());
+                throw new CustomRuntimeException("not a db connection " + e.getMessage());
             }
     }
 
     @Override
-    public String getfileSource() {
-        return columnname;
+    public boolean exist() throws SQLException {
+        if (resultSet != null && resultSet.isBeforeFirst()) {
+            return true;
+        } else {
+            System.out.println("no data found ");
+            return false;
+        }
     }
 }

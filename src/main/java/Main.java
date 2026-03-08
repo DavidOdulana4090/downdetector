@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) throws CustomIOException {
 
 
-        Readfile readfile = new Readfile();
+        Readdatabase readdatabase = new Readdatabase();
 
     }
 }

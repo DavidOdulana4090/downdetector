@@ -28,14 +28,14 @@ public class createReport {
         }
     }
 
-    public static void log(String url, boolean isReachable, int statusCode, HttpResponse<String> details) {
+    public static void log(String url, boolean isReachable, int statusCode) {
         mkfile();
         String timestamp = LocalDateTime.now().format(dtf);
         String statusStr = isReachable ? "UP" : "DOWN";
-        String logLine = String.format("| Timestamp: %s URL: %-30s | Status: %-4s | Code: %-3d | Msg: %s%n", timestamp, url, statusStr, statusCode, details);
+        String logLine = String.format("|Time : %-20s URL: %-30s | Status: %-5s | Code: %-3d", timestamp, url, statusStr, statusCode);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(directory + File.separator + filename, true))) {
-            writer.write(logLine);
+            writer.write(logLine + "\n");
         } catch (IOException e) {
             System.err.println("Error writing to log file: " + e.getMessage());
         }
