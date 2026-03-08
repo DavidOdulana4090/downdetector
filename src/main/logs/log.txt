@@ -1,10 +1,1 @@
-|Time : 2026-03-08 12:44:08  URL: https://www.youtube.com        | Status: UP    | Code: 200
-|Time : 2026-03-08 12:44:08  URL: https://ca.pinterest.com/      | Status: UP    | Code: 200
-|Time : 2026-03-08 12:44:08  URL: https://www.amazon.com/        | Status: UP    | Code: 503
-|Time : 2026-03-08 12:44:08  URL: notasite                       | Status: DOWN  | Code: 0  
-|Time : 2026-03-08 12:44:09  URL: https://www.google.com/        | Status: UP    | Code: 200
-|Time : 2026-03-08 12:44:09  URL: https://github.com/            | Status: UP    | Code: 200
-|Time : 2026-03-08 12:44:09  URL: https://www.bing.com/          | Status: UP    | Code: 200
-|Time : 2026-03-08 12:44:09  URL: https://www.reddit.com/        | Status: UP    | Code: 200
-|Time : 2026-03-08 12:44:09  URL: "idk"                          | Status: DOWN  | Code: 0  
-|Time : 2026-03-08 12:44:09  URL: https://www.com                | Status: UP    | Code: 200
+|T

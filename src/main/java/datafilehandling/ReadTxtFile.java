@@ -7,17 +7,17 @@ import java.util.Scanner;
 import connection. *;
 import Exception. *;
 
-public class Readfile extends datasource {
+public class ReadTxtFile extends AbstractSource {
 
     private File file;
     private String filepath;
     private Scanner scanner;
     protected String filename;
-    protected httpconnection httpconnection = new httpconnection();
+    protected HttpConnection httpconnection = new HttpConnection();
     String input;
 
 
-    public Readfile() throws CustomIOException, CustomFileNotFoundException {
+    public ReadTxtFile() throws CustomIOException, CustomFileNotFoundException {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Enter filename : ");
             filename = scanner.nextLine();
@@ -26,27 +26,21 @@ public class Readfile extends datasource {
             input = scanner.nextLine();
 
             System.out.println();
-            loadsource(filename);
+            loadSource(filename);
         }
     }
 
     @Override
-    public void loadsource(String filename) {
+    public void loadSource(String filename) {
         String txtline = null;
         try {
             var resource = getClass().getClassLoader().getResource(filename);
             assert resource != null;
 
             file = new File(resource.toURI());
-            exist();
                 try (Scanner scanner = new Scanner(file)) {
                     while (scanner.hasNextLine()) {
-                        txtline = scanner.nextLine();
-                        if (!input.equalsIgnoreCase("y")){
-                            System.out.println(txtline + " " + (httpconnection.isReachable(txtline) ? "is reachable" : "is not reachable"));
-                        } else {
-                            createReport.log(txtline, (httpconnection.isReachable(txtline)), httpconnection.getStatusCode());
-                        }
+                        processResult(scanner.nextLine());
                     }
                     System.out.println("Finished ");
                 }
@@ -56,6 +50,15 @@ public class Readfile extends datasource {
         } catch (Exception e) {
             System.err.println("file not found: " + filename +  " " + e.getMessage());
             System.exit(0);
+        }
+    }
+
+    @Override
+    public void processResult(String line) throws CustomIOException {
+        if (!input.equalsIgnoreCase("y")){
+            System.out.println(line + " " + (httpconnection.isReachable(line) ? "is reachable" : "is not reachable"));
+        } else {
+            CreateReport.log(line, (httpconnection.isReachable(line)), httpconnection.getStatusCode());
         }
     }
 

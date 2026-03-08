@@ -4,14 +4,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class createReport {
+public class CreateReport {
     static String directory = "src/main/logs";
     static Path dirPath = Paths.get(directory);
     static String filename = "log.txt";

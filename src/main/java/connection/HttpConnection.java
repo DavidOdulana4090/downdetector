@@ -1,16 +1,13 @@
 package connection;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import Exception. *;
-import datafilehandling.createReport;
 
-public class httpconnection implements Checkconnections {
+public class HttpConnection implements CheckConnection {
 
     HttpClient httpClient = HttpClient.newHttpClient();
     HttpRequest request;
@@ -22,6 +19,7 @@ public class httpconnection implements Checkconnections {
 
     @Override
     public boolean isReachable(String url) throws CustomInterruptedException, CustomIOException, CustomRuntimeException {
+        this.statusCode = 0;
         try {
              request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
@@ -31,12 +29,12 @@ public class httpconnection implements Checkconnections {
 
             setStatusCode(response.statusCode());
 
-            if (statusCode >= 200 && statusCode < 300) {
+            if (statusCode >= 200 && statusCode < 400) {
                 reachable = true;
             }
             return reachable;
         } catch (Exception e){
-            System.err.println("cant process this request: " + url + " " + e.getMessage());
+            System.err.println("failed request: " + url + " " + e.getMessage());
             setStatusCode(0);
             return false ;
         }

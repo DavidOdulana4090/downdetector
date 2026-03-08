@@ -1,2 +1,7 @@
-# Java 25
-# implementing a new way to read file and support other methods
+ # Java 25
+
+ # JDBC Driver MySQL, PostgresSQL for Database functionality.
+
+ # A internet connection for URL validation.
+
+ # Easy to use

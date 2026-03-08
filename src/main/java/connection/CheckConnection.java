@@ -1,15 +1,9 @@
 package connection;
 
-import datafilehandling.Readfile;
-
 import Exception. *;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.http.HttpResponse;
 
-
-public interface Checkconnections {
+public interface CheckConnection {
 
      boolean isReachable(String url) throws CustomIOException, CustomInterruptedException, CustomRuntimeException;
 

@@ -5,7 +5,7 @@ import connection. *;
 import java.sql.*;
 import java.util.Scanner;
 
-public class Readdatabase extends datasource{
+public class ReadJdbc extends AbstractSource {
 
     String url;
     String tablename;
@@ -14,9 +14,9 @@ public class Readdatabase extends datasource{
     boolean result;
     ResultSet resultSet;
 
-    httpconnection httpconnection = new httpconnection();
+    HttpConnection httpconnection = new HttpConnection();
 
-    public Readdatabase(){
+    public ReadJdbc(){
         try(Scanner scanner = new Scanner(System.in)){
             System.out.print("Enter your full data base url : ");
             url = scanner.nextLine();
@@ -27,13 +27,13 @@ public class Readdatabase extends datasource{
             System.out.println("Create a report? (Y/N) : ");
             input = scanner.nextLine();
 
-            loadsource(url);
+            loadSource(url);
         } catch (CustomIOException e) {
             System.out.println(e.getMessage());
         }
     }
     @Override
-    public void loadsource(String jdbc) throws CustomIOException {
+    public void loadSource(String jdbc) throws CustomIOException {
             try(Connection dbconnection = DriverManager.getConnection(url)){
 
                 Statement statement = dbconnection.createStatement();
@@ -48,15 +48,20 @@ public class Readdatabase extends datasource{
                 resultSet = statement.executeQuery(sqlcommand.toString());
 
                 while (resultSet.next()) {
-                    String foundurl = resultSet.getString(columnname);
-                    if (!input.equalsIgnoreCase("y")){
-                        System.out.println(foundurl + " " + (httpconnection.isReachable(foundurl) ? "is reachable" : "is not reachable"));
-                    } else {
-                        createReport.log(foundurl, httpconnection.isReachable(foundurl), httpconnection.getStatusCode());
-                    }
+                    processResult(resultSet.getString(columnname));
                 }
+                System.out.println("Finished.");
             } catch (SQLException e) {
                 throw new CustomRuntimeException("not a db connection " + e.getMessage());
             }
+    }
+
+    @Override
+    public void processResult(String line) throws CustomIOException {
+        if (!input.equalsIgnoreCase("y")){
+            System.out.println(line + " " + (httpconnection.isReachable(line) ? "is reachable" : "is not reachable"));
+        } else {
+            CreateReport.log(line, httpconnection.isReachable(line), httpconnection.getStatusCode());
+        }
     }
 }
