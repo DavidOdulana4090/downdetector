@@ -60,13 +60,4 @@ public class Readfile extends datasource {
     }
 
 
-    @Override
-    public boolean exist() {
-        if (file.exists()) {
-            return true;
-        } else {
-            System.out.println("file not found");
-            return false;
-        }
-    }
 }

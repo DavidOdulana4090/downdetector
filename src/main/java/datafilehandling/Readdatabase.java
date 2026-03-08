@@ -59,14 +59,4 @@ public class Readdatabase extends datasource{
                 throw new CustomRuntimeException("not a db connection " + e.getMessage());
             }
     }
-
-    @Override
-    public boolean exist() throws SQLException {
-        if (resultSet != null && resultSet.isBeforeFirst()) {
-            return true;
-        } else {
-            System.out.println("no data found ");
-            return false;
-        }
-    }
 }
