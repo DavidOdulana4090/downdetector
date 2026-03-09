@@ -1,8 +1,11 @@
 package datafilehandling;
 
+import Exception.CustomFileNotFoundException;
 import Exception.CustomIOException;
+import connection.HttpConnection;
 
-import java.io.File;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.util.Scanner;
 import connection. *;
 import Exception. *;
@@ -10,8 +13,6 @@ import Exception. *;
 public class ReadTxtFile extends AbstractSource {
 
     private File file;
-    private String filepath;
-    private Scanner scanner;
     protected String filename;
     protected HttpConnection httpconnection = new HttpConnection();
     String input;
@@ -31,36 +32,40 @@ public class ReadTxtFile extends AbstractSource {
     }
 
     @Override
-    public void loadSource(String filename) {
-        String txtline = null;
+    public void loadSource(String filename) throws CustomIOException, CustomFileNotFoundException {
         try {
             var resource = getClass().getClassLoader().getResource(filename);
-            assert resource != null;
+            if (resource == null) {
+                throw new CustomFileNotFoundException("File not found in resources: " + filename);
+            }
 
             file = new File(resource.toURI());
-                try (Scanner scanner = new Scanner(file)) {
-                    while (scanner.hasNextLine()) {
-                        processResult(scanner.nextLine());
-                    }
-                    System.out.println("Finished ");
+            try (FileInputStream fileInputStream = new FileInputStream(file);
+                 BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+                 DataInputStream dataInputStream = new DataInputStream(bufferedInputStream);
+                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(dataInputStream))) {
+
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    processResult(line);
                 }
-                catch (Exception e) {
-                    System.err.println("cant read file" + e);
-                }
-        } catch (Exception e) {
-            System.err.println("file not found: " + filename +  " " + e.getMessage());
-            System.exit(0);
+                System.out.println("Finished reading file.");
+
+            } catch (IOException e) {
+                throw new CustomIOException("read file error " + e.getMessage());
+            }
+        } catch (URISyntaxException e) {
+            throw new CustomIOException("loading file error " + e.getMessage());
         }
     }
 
     @Override
     public void processResult(String line) throws CustomIOException {
         if (!input.equalsIgnoreCase("y")){
-            System.out.println(line + " " + (httpconnection.isReachable(line) ? "is reachable" : "is not reachable"));
+            String formatted = String.format("url: %-35s status: %-20s", line, (httpconnection.isReachable(line) ? "is reachable" : "is not reachable"));
+            System.out.println(formatted);
         } else {
             CreateReport.log(line, (httpconnection.isReachable(line)), httpconnection.getStatusCode());
         }
     }
-
-
 }
