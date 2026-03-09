@@ -49,7 +49,7 @@ public class ReadTxtFile extends AbstractSource {
                 while ((line = bufferedReader.readLine()) != null) {
                     processResult(line);
                 }
-                System.out.println("Finished reading file.");
+                System.out.println("Finished.");
 
             } catch (IOException e) {
                 throw new CustomIOException("read file error " + e.getMessage());
